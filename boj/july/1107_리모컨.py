@@ -13,7 +13,10 @@
 
 n = int(input())
 m = int(input())
-broke = list(map(int, input().split()))
+if m == 0:
+    broke = []
+else:
+    broke = list(map(int, input().split()))
 
 # 현재 채널
 now = 100
@@ -28,6 +31,8 @@ checkpoint = 0
 
 # 가능한 채널들 찾기
 def find(x, y):
+    if x <= 0:
+        x = 0
     for i in range(x, y):
         cnt = 0
         for j in broke:
@@ -37,18 +42,19 @@ def find(x, y):
                 cnt += 1
         if cnt == m:
             data.append(i)
+    # print(data)
 
     for d in data:
         tmp = abs(d - n)
         global minAbs
-        minAbs = min(minAbs, tmp)
+        minAbs = min(minAbs, tmp + len(str(d)))
 
     if min(absValue, minAbs) == absValue:
         print(absValue)
         return absValue
     else:
-        print(minAbs + len(str(absValue)))
-        return minAbs + len(str(absValue))
+        print(minAbs)
+        return minAbs
 
 if now < n:
     checkpoint = n + absValue
@@ -57,7 +63,7 @@ elif now > n:
     checkpoint = n - absValue
     find(checkpoint, now)
 else:
-    print(0) 
+    print(0)
 
 # data = [1, 2, 3, 4]
 # for i in data:
