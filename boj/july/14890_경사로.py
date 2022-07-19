@@ -13,6 +13,8 @@ for _ in range(n):
     line = list(map(int, input().split()))
     data.append(line)
 
+print(data)
+
 # 한 행에서의 길
 for i in data:
     j = 0
@@ -105,7 +107,7 @@ for i in swap_data:
                 check = 0
                 # 다음 오는 l개의 칸 높이가 h - 1인지 check
                 k = 0
-                for k in range(j+1, l+1):
+                for k in range(j+1, j+1+l):
                     if h - 1 == i[k]:
                         check += 1
                     else:
