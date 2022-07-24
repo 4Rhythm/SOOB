@@ -22,8 +22,6 @@ for i in range(1, n+1):
 while m > 0:
     pick = pick_deq.popleft()
     position = deq.index(pick) + 1
-    what = len(deq)
-    fuck = math.ceil(len(deq) / 2)
 
     if position == 1:
         deq.popleft()
