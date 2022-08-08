@@ -32,7 +32,7 @@ for _ in range(n):
     data = list(map(int, input().split()))
     graph.append(data)
 
-visited = [[0] * m] * n
+# visited = [[0] * m] * n
 
 for i in range(n):
     for j in range(m):
