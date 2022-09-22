@@ -28,16 +28,19 @@ room = []
 for _ in range(r):
     tmp = list(map(int, input().split()))
     room.append(tmp)
-
 # print(room)
 
 # 상 하 좌 우
-dx = [0, 0, -1, 1]
-dy = [-1, 1, 0, 0]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
 for _ in range(t):
     # 모든 칸에서 동시에 미세먼지 확산
     room_1 = copy.deepcopy(room)
+
+    # for i in room_1:
+    #     print(i)
+
     for i in range(r):
         for j in range(c):
             count = 0
@@ -49,7 +52,10 @@ for _ in range(t):
                         room_1[nx][ny] += trunc(room[i][j] / 5)
                         count += 1
             room_1[i][j] -= trunc(room[i][j] / 5) * count
-    # print(room_1)
+
+    # for i in room_1:
+    #     print(i)
+    # print()
 
     # 공기청정기 작동
     room_2 = copy.deepcopy(room_1)
@@ -61,59 +67,65 @@ for _ in range(t):
     up_start = machine[0][0]
     down_start = machine[1][0]
 
-    # 3 -> 0 -> 2 -> 1
     # 상 하 좌 우
-    # d_list = [3, 0, 2, 1]
-    # while (nx != up_start-1) or (ny != 0):
+    # dx = [-1, 1, 0, 0]
+    # dy = [0, 0, -1, 1] 이므로
+    top = [3, 0, 2, 1]
+    bottom = [3, 1, 2, 0]
 
-    # 위쪽
-    # (up_start, 1) = 0!!
-    # (up_start, 1)부터 (up_start, c - 2)까지는 우
-    # (up_start, c - 1)부터 (1, c - 1) 까지는 상
-    # (0, c - 1) 부터 (0, 1)까지는 좌
-    # (0, 0)부터 (up_start - 2, 0)까지는 하
-    # (up_start - 1, 0) = 0!!
-    room_2[up_start][1] = 0
-    for i in range(1, c - 1):
-        room_2[up_start][i + 1] = room_1[up_start][i]
-        # print(up_start, i)
-    for i in range(up_start, 0, -1):
-        room_2[i - 1][c - 1] = room_1[i][c - 1]
-        # print(i, c - 1)
-    for i in range(c - 1, 0, -1):
-        room_2[0][i - 1] = room_1[0][i]
-        # print(0, i)
-    for i in range(0, up_start - 1):
-        room_2[i + 1][0] = room_1[i][0]
-        # print(i, 0)
-    room_2[up_start - 2][0] = 0
+    # 위쪽 부분(반시계 방향, (up_start, 0))
+    x, y = up_start, 0
+    for i in range(4):
+        while True:
+            nx = dx[top[i]] + x
+            ny = dy[top[i]] + y
 
-    # 아래쪽
-    # (down_start, 1) = 0!!
-    # (down_start, 1)부터 (down_start, c - 2)까지는 우
-    # (down_start, c - 1)부터 (r - 2, c - 1) 까지는 하
-    # (r - 1, c - 1) 부터 (r - 1, 1)까지는 좌
-    # (r, 0)부터 (down_start - 2, 0)까지는 상
-    # (down_start - 1, 0) = 0!!
-    room_2[down_start][1] = 0
-    for i in range(1, c - 1):
-        room_2[down_start][i + 1] = room_1[down_start][i]
-        # print(down_start, i)
-    for i in range(down_start, r - 1):
-        room_2[i + 1][c - 1] = room_1[i][c - 1]
-        # print(i, c - 1)
-    for i in range(c - 1, 0, -1):
-        room_2[r - 1][i - 1] = room_1[r - 1][i]
-        # print(r-1, i)
-    for i in range(r - 1, down_start + 1, -1):
-        room_2[i - 1][0] = room_1[i][0]
-        # print(i, 0)
-    room_2[down_start + 1][0] = 0
+            if room_1[x][y] == -1:
+                room_2[nx][ny] = 0
+                x = nx
+                y = ny
+                continue
+
+            if not((0 <= nx <= up_start) and (0 <= ny <= c - 1)):
+                break
+            else:
+                if room_1[nx][ny] == -1:
+                    break
+                else:
+                    room_2[nx][ny] = room_1[x][y]
+                    x = nx
+                    y = ny
+
+    # 아래쪽 부분(시계 방향, (down_start, 0))
+    x, y = down_start, 0
+    for i in range(4):
+        while True:
+            nx = dx[bottom[i]] + x
+            ny = dy[bottom[i]] + y
+
+            if room_1[x][y] == -1:
+                room_2[nx][ny] = 0
+                x = nx
+                y = ny
+                continue
+
+            if not((down_start <= nx <= r - 1) and (0 <= ny <= c - 1)):
+                break
+            else:
+                if room_1[nx][ny] == -1:
+                    break
+                else:
+                    room_2[nx][ny] = room_1[x][y]
+                    x = nx
+                    y = ny
 
     # for i in room_2:
     #     print(i)
 
     room = copy.deepcopy(room_2)
+
+    # for i in room:
+    #     print(i)
 
     answer = 0
     for i in room:
