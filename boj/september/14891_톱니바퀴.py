@@ -15,7 +15,7 @@ gear = {}
 for i in range(1, 5):
     tmp = input()
     gear[i] = deque(map(int, str(tmp)))
-print(gear)
+# print(gear)
 
 k = int(input())
 
@@ -27,7 +27,7 @@ def spin_left(a, b):
 
     spin_left(a - 1, -b)
 
-    # 참고) roate함수를 사용하자(음수: 반시계 방향 회전, 양수: 시계 방향 회전)
+    # 참고) rotate함수를 사용하자(음수: 반시계 방향 회전, 양수: 시계 방향 회전)
     gear[a].rotate(b)
 
 def spin_right(a, b):
@@ -36,7 +36,7 @@ def spin_right(a, b):
     if gear[a][6] == gear[a - 1][2]:
         return
 
-    spin_left(a + 1, -b)
+    spin_right(a + 1, -b)
     gear[a].rotate(b)
 
 
