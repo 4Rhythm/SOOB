@@ -6,14 +6,13 @@
 n, m = map(int, input().split())
 answer = []
 
-def back():
-  # 배열의 길이를 확인, 재귀 탈출 조건
+def back(x):
   if len(answer) == m:
     print(" ".join(map(str, answer)))
     return
 
-  for i in range(1, n + 1):
+  for i in range(x, n + 1):
     answer.append(i)
-    back()
+    back(i)
     answer.pop()
-back()
+back(1)
